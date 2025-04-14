@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -13,6 +13,7 @@ import styles from "../App.styles";
 import { brown, red } from "@mui/material/colors";
 import CloseIcon from "@mui/icons-material/Close";
 import CircleIcon from "@mui/icons-material/Circle";
+import { useLocation } from "react-router-dom";
 
 // Imagens fixas
 import pattern from "../assets/minimal-background-pattern-wordpress-3.jpg";
@@ -264,6 +265,48 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState<ProductCard | null>(
     null
   );
+  const location = useLocation();
+
+  // Referências para as seções que queremos animar
+  const titleRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const technologyRef = useRef<HTMLDivElement>(null);
+
+  // Estados para controlar a visibilidade de cada seção
+  const [isTitleVisible, setIsTitleVisible] = useState(false);
+  const [isGridVisible, setIsGridVisible] = useState(false);
+  const [isTechnologyVisible, setIsTechnologyVisible] = useState(false);
+
+  // Configurar o IntersectionObserver para cada seção
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.2, // Dispara quando 20% da seção estiver visível
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === titleRef.current) setIsTitleVisible(true);
+          if (entry.target === gridRef.current) setIsGridVisible(true);
+          if (entry.target === technologyRef.current)
+            setIsTechnologyVisible(true);
+          observer.unobserve(entry.target); // Para de observar após a animação ser disparada
+        }
+      });
+    }, observerOptions);
+
+    // Observa cada seção
+    if (titleRef.current) observer.observe(titleRef.current);
+    if (gridRef.current) observer.observe(gridRef.current);
+    if (technologyRef.current) observer.observe(technologyRef.current);
+
+    // Limpeza do observer ao desmontar o componente
+    return () => {
+      if (titleRef.current) observer.unobserve(titleRef.current);
+      if (gridRef.current) observer.unobserve(gridRef.current);
+      if (technologyRef.current) observer.unobserve(technologyRef.current);
+    };
+  }, []);
 
   const handleOpenModal = (product: ProductCard) => {
     setSelectedProduct(product);
@@ -275,31 +318,47 @@ const Products = () => {
     setSelectedProduct(null);
   };
 
-   useEffect(() => {
-      if (location.pathname === "/produtos") {
-        const contactSection = document.getElementById("products");
-        if (contactSection) {
-          setTimeout(() =>  {
-             contactSection.scrollIntoView({
-               behavior: "smooth",
-               block: "start",
-             });
-          }, 1000);
-        }
+  useEffect(() => {
+    if (location.pathname === "/produtos") {
+      const contactSection = document.getElementById("products");
+      if (contactSection) {
+        setTimeout(() => {
+          contactSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 1000);
       }
-    }, [location]); // Executa o efeito sempre que a rota mudar
+    }
+  }, [location]); // Executa o efeito sempre que a rota mudar
 
   return (
     <Box sx={styles.products} id="products">
       {/* Título e Divisores */}
-      <Stack sx={{ position: "relative", gap: 1 }}>
-        <Typography variant="h2">Nossos Produtos</Typography>
+      <Stack ref={titleRef} sx={{ position: "relative", gap: 1 }}>
+        <Typography
+          variant="h2"
+          sx={{
+            animation: isTitleVisible ? "fadeInDown 0.8s ease-in-out" : "none",
+            "@keyframes fadeInDown": {
+              "0%": { opacity: 0, transform: "translateY(-20px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
+          }}
+        >
+          Nossos Produtos
+        </Typography>
         <Divider
           sx={{
             backgroundColor: "#D4A017",
             height: "4px",
             width: "150px",
             marginBottom: "10px",
+            animation: isTitleVisible ? "expandWidth 0.8s ease-in-out" : "none",
+            "@keyframes expandWidth": {
+              "0%": { width: "0px", opacity: 0 },
+              "100%": { width: "150px", opacity: 1 },
+            },
           }}
         />
         <Divider
@@ -310,13 +369,18 @@ const Products = () => {
             position: "absolute",
             left: 15,
             bottom: 0,
+            animation: isTitleVisible ? "expandWidth 1s ease-in-out" : "none",
+            "@keyframes expandWidth": {
+              "0%": { width: "0px", opacity: 0 },
+              "100%": { width: "200px", opacity: 1 },
+            },
           }}
         />
       </Stack>
 
       {/* Grid de Produtos */}
-      <Box sx={styles.products.grid}>
-        {productsWithImages.map((product) => (
+      <Box ref={gridRef} sx={styles.products.grid}>
+        {productsWithImages.map((product, index) => (
           <Box
             key={product.id}
             sx={{
@@ -335,6 +399,15 @@ const Products = () => {
                 },
               },
               boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;",
+              animation: isGridVisible
+                ? `fadeInUp 0.5s ease-in-out ${index * 0.1}s`
+                : "none",
+              animationFillMode: "forwards",
+              opacity: 0,
+              "@keyframes fadeInUp": {
+                "0%": { opacity: 0, transform: "translateY(20px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
             }}
           >
             <Box
@@ -435,7 +508,7 @@ const Products = () => {
       </Box>
 
       {/* Seção "Nossa Tecnologia" */}
-      <Box sx={styles.products.content}>
+      <Box ref={technologyRef} sx={styles.products.content}>
         <Box
           component="img"
           src={pattern}
@@ -447,16 +520,49 @@ const Products = () => {
           }}
         />
         <Box sx={styles.products.text}>
-          <Typography variant="h2">Nossa Tecnologia</Typography>
+          <Typography
+            variant="h2"
+            sx={{
+              animation: isTechnologyVisible
+                ? "fadeInDown 0.8s ease-in-out"
+                : "none",
+              "@keyframes fadeInDown": {
+                "0%": { opacity: 0, transform: "translateY(-20px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
+            }}
+          >
+            Nossa Tecnologia
+          </Typography>
           <Divider
             sx={{
               backgroundColor: red[800],
               height: "4px",
               width: "150px",
               marginBottom: "10px",
+              animation: isTechnologyVisible
+                ? "expandWidth 0.8s ease-in-out"
+                : "none",
+              "@keyframes expandWidth": {
+                "0%": { width: "0px", opacity: 0 },
+                "100%": { width: "150px", opacity: 1 },
+              },
             }}
           />
-          <Typography fontSize="large" fontWeight={400} color={brown[800]}>
+          <Typography
+            fontSize="large"
+            fontWeight={400}
+            color={brown[800]}
+            sx={{
+              animation: isTechnologyVisible
+                ? "slideInLeft 0.8s ease-in-out"
+                : "none",
+              "@keyframes slideInLeft": {
+                "0%": { opacity: 0, transform: "translateX(-50px)" },
+                "100%": { opacity: 1, transform: "translateX(0)" },
+              },
+            }}
+          >
             A pintura eletrostática oferece um acabamento superior, com
             superfície lisa, brilhante e sem imperfeições. Ela é altamente
             resistente a impactos, corrosão, radiação e produtos químicos,
@@ -466,11 +572,22 @@ const Products = () => {
             saúde e o meio ambiente.
           </Typography>
         </Box>
-        <Box sx={styles.products.image}>
+        <Box
+          sx={{
+            ...styles.products.image,
+            animation: isTechnologyVisible
+              ? "slideInRight 0.8s ease-in-out"
+              : "none",
+            "@keyframes slideInRight": {
+              "0%": { opacity: 0, transform: "translateX(50px)" },
+              "100%": { opacity: 1, transform: "translateX(0)" },
+            },
+          }}
+        >
           <Box
             component="img"
             src={technologyImage}
-            sx={{ height: "100%", width: "100%", objectFit: 'contain' }}
+            sx={{ height: "100%", width: "100%", objectFit: "contain" }}
           />
         </Box>
       </Box>

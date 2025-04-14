@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "../App.styles";
 
 import header_image_1 from "../assets/header_image_1.jpg";
@@ -23,7 +23,7 @@ const headerImages = [header_image_1, header_image_2, header_image_3];
 const topCards = [
   {
     icon: <LocationOnIcon sx={{ height: 40, width: 40, color: red[800] }} />,
-    title: "Localização ",
+    title: "Localização",
     decription:
       "Av. Pompílio Gomes Sobrinho, 22856 Centro . CEP 94380-000 . Glorinha . RS",
   },
@@ -35,27 +35,28 @@ const topCards = [
   {
     icon: <LocalPhoneIcon sx={{ height: 40, width: 40, color: red[800] }} />,
     title: "Telefone",
-    decription: "51-34871354 ",
+    decription: "51-34871354",
   },
 ];
+
 const mainCards = [
   {
     icon: <HomeIcon sx={{ height: 60, width: 60, color: red[800] }} />,
     title: "Residencial",
     description:
-      "Cercamento perimetral, piscinas, canil, jardins, quadras poliesportivas, propriedades rurais e etc.",
+      "Cercas para proteção de perímetros, piscinas, áreas de lazer, jardins, canis, propriedades rurais, entre outros.",
   },
   {
     icon: <BusinessIcon sx={{ height: 60, width: 60, color: red[800] }} />,
     title: "Comercial",
     description:
-      "Cercamento perimetral, estacionamentos, estoques, eventos e etc.",
+      "Soluções de cercamento para estacionamentos, áreas de eventos, estoques e proteção de perímetros comerciais.",
   },
   {
     icon: <FactoryIcon sx={{ height: 60, width: 60, color: red[800] }} />,
     title: "Industrial",
     description:
-      "Cercamento perimetral, proteção de máquinas e equipamentos, estacionamentos, almoxarifados e etc.",
+      "Cercamento para segurança de perímetros industriais, proteção de máquinas, estacionamentos e almoxarifados.",
   },
 ];
 
@@ -68,19 +69,18 @@ const Header = () => {
       setCurrentImageIndex(
         (prevIndex) => (prevIndex + 1) % headerImages.length
       );
-    }, 5000); // Troca de imagem a cada 5 segundos (ajuste conforme necessário)
+    }, 5000);
 
-    return () => clearInterval(intervalId); // Limpa o intervalo ao desmontar o componente
+    return () => clearInterval(intervalId);
   }, []);
 
   const goToNext = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % headerImages.length);
   };
 
-
-
   return (
     <Box sx={{ ...styles.header, position: "relative" }}>
+      {/* Imagem de fundo com animação */}
       <Box
         component="img"
         src={headerImages[currentImageIndex]}
@@ -90,11 +90,12 @@ const Header = () => {
           zIndex: 1,
           width: "100%",
           height: "100%",
-          objectFit: { 
-            xs: 'cover',
-         
+          objectFit: { xs: "cover" },
+          animation: "fadeZoom 1s ease-in-out",
+          "@keyframes fadeZoom": {
+            "0%": { opacity: 0, transform: "scale(1.1)" },
+            "100%": { opacity: 1, transform: "scale(1)" },
           },
-          transition: "opacity 0.5s ease-in-out", // Adiciona uma transição suave
         }}
       />
       <Box
@@ -105,11 +106,25 @@ const Header = () => {
           height: "100%",
           backgroundColor: "rgba(0, 0, 0, 0.4)",
         }}
-      ></Box>
+      />
+
+      {/* Top Container */}
       <Box sx={styles.header.topContainer}>
         <Box sx={styles.header.topCards}>
           {topCards.map((card, index) => (
-            <Box key={index} sx={styles.header.topCard}>
+            <Box
+              key={index}
+              sx={{
+                ...styles.header.topCard,
+                animation: `fadeInUp 0.5s ease-in-out ${index * 0.2}s`,
+                animationFillMode: "forwards",
+                opacity: 0,
+                "@keyframes fadeInUp": {
+                  "0%": { opacity: 0, transform: "translateY(20px)" },
+                  "100%": { opacity: 1, transform: "translateY(0)" },
+                },
+              }}
+            >
               {card.icon}
               <Box>
                 <Typography>{card.title}</Typography>
@@ -118,7 +133,17 @@ const Header = () => {
             </Box>
           ))}
         </Box>
-        <Box sx={styles.header.callToAction}>
+        <Box
+          sx={{
+            ...styles.header.callToAction,
+            animation: "bounceIn 0.8s ease-in-out",
+            "@keyframes bounceIn": {
+              "0%": { opacity: 0, transform: "scale(0.8)" },
+              "60%": { opacity: 1, transform: "scale(1.1)" },
+              "100%": { opacity: 1, transform: "scale(1)" },
+            },
+          }}
+        >
           <Stack direction="row" gap={2}>
             <CalendarMonthIcon
               sx={{ height: 40, width: 40, color: red[800] }}
@@ -128,19 +153,39 @@ const Header = () => {
         </Box>
       </Box>
 
+      {/* Main Container */}
       <Box sx={styles.header.mainContainer}>
         <Box sx={styles.header.mainText}>
           <Stack>
-            <Typography fontFamily="unset" variant="h2">
+            <Typography
+              fontFamily="unset"
+              variant="h2"
+              sx={{
+                animation: "slideInLeft 0.8s ease-in-out",
+                "@keyframes slideInLeft": {
+                  "0%": { opacity: 0, transform: "translateX(-50px)" },
+                  "100%": { opacity: 1, transform: "translateX(0)" },
+                },
+              }}
+            >
               Cercas & Cia Refer
             </Typography>
-            <Typography fontSize="large">
+            <Typography
+              fontSize="large"
+              sx={{
+                animation: "slideInLeft 1s ease-in-out",
+                "@keyframes slideInLeft": {
+                  "0%": { opacity: 0, transform: "translateX(-50px)" },
+                  "100%": { opacity: 1, transform: "translateX(0)" },
+                },
+              }}
+            >
               Qualidade que você vê, segurança que você sente
             </Typography>
           </Stack>
 
           <Button
-            onClick={( ) => navigate('/contato')}
+            onClick={() => navigate("/contato")}
             sx={{
               backgroundColor: red[800],
               color: "white",
@@ -150,6 +195,17 @@ const Header = () => {
               borderRadius: 0,
               "&:hover": {
                 backgroundColor: red[700],
+                animation: "pulse 1s infinite",
+                "@keyframes pulse": {
+                  "0%": { transform: "scale(1)" },
+                  "50%": { transform: "scale(1.05)" },
+                  "100%": { transform: "scale(1)" },
+                },
+              },
+              animation: "scaleIn 0.8s ease-in-out",
+              "@keyframes scaleIn": {
+                "0%": { opacity: 0, transform: "scale(0.8)" },
+                "100%": { opacity: 1, transform: "scale(1)" },
               },
             }}
           >
@@ -161,16 +217,26 @@ const Header = () => {
             <Box
               key={index}
               sx={{
-                ...styles.header.mainCard,
-                height: index === 1 ? 250 : 220,
+              ...styles.header.mainCard,
+              height: index === 1 ? 250 : 220,
+              borderRadius: 0,
+              background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent)",
+              borderTop: '1px solid #efa14e',
+              animation: `fadeInUp 0.5s ease-in-out ${0.5 + index * 0.2}s`,
+              animationFillMode: "forwards",
+              opacity: 0,
+              "@keyframes fadeInUp": {
+                "0%": { opacity: 0, transform: "translateY(20px)" },
+                "100%": { opacity: 1, transform: "translateY(0)" },
+              },
               }}
             >
               {card.icon}
               <Typography
-                variant="h6"
-                sx={{ fontWeight: "bold", marginTop: 1 }}
+              variant="h6"
+              sx={{ fontWeight: "bold", marginTop: 1 }}
               >
-                {card.title}
+              {card.title}
               </Typography>
               <Typography fontSize="small">{card.description}</Typography>
             </Box>
@@ -178,6 +244,7 @@ const Header = () => {
         </Box>
       </Box>
 
+      {/* Barra inferior do carrossel */}
       <Box
         sx={{
           height: 60,
@@ -193,16 +260,26 @@ const Header = () => {
           zIndex: 30,
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "0 16px", // Adiciona um pouco de padding nas laterais
+          padding: "0 16px",
+          animation: "slideInBottom 0.8s ease-in-out",
+          "@keyframes slideInBottom": {
+            "0%": { opacity: 0, transform: "translateY(60px)" },
+            "100%": { opacity: 1, transform: "translateY(0)" },
+          },
         }}
       >
-       
-        <Box sx={{ width: "50%", height: 30 }}></Box> {/* Espaçador */}
+        <Box sx={{ width: "50%", height: 30 }}></Box>
         <IconButton
           onClick={goToNext}
           sx={{
             color: "white",
             "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.1)" },
+            animation: "pulse 1.5s infinite",
+            "@keyframes pulse": {
+              "0%": { transform: "scale(1)" },
+              "50%": { transform: "scale(1.1)" },
+              "100%": { transform: "scale(1)" },
+            },
           }}
         >
           <ArrowForwardIosIcon />
@@ -217,7 +294,7 @@ const Header = () => {
             right: 0,
             bottom: 0,
           }}
-        ></Box>
+        />
       </Box>
     </Box>
   );

@@ -1,10 +1,9 @@
 import axios from 'axios';
 
-const local = 'http://localhost:3000';
-const prod = ''
+const prod = 'https://cercas-cia-website-backend.vercel.app'
 
 const api = axios.create({
-    baseURL: local, // Replace with your API base URL
+    baseURL: prod, // Replace with your API base URL
     headers: {
         'Content-Type': 'application/json',
     },

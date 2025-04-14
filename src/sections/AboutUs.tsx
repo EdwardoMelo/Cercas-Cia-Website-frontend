@@ -1,13 +1,64 @@
-import { useEffect } from "react";
-import {
-  Box,
-  Typography,
-  Paper
-} from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Box, Typography, Paper } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
 const AboutUs = () => {
-  const location = useLocation(); // Hook para obter a localização atual
+  const location = useLocation();
+
+  // Referências para as seções que queremos animar
+  const titleRef = useRef<HTMLDivElement>(null);
+  const experienceRef = useRef<HTMLDivElement>(null);
+  const companyRef = useRef<HTMLDivElement>(null);
+  const missionVisionValuesRef = useRef<HTMLDivElement>(null);
+  const locationRef = useRef<HTMLDivElement>(null);
+
+  // Estados para controlar a visibilidade de cada seção
+  const [isTitleVisible, setIsTitleVisible] = useState(false);
+  const [isExperienceVisible, setIsExperienceVisible] = useState(false);
+  const [isCompanyVisible, setIsCompanyVisible] = useState(false);
+  const [isMissionVisionValuesVisible, setIsMissionVisionValuesVisible] =
+    useState(false);
+  const [isLocationVisible, setIsLocationVisible] = useState(false);
+
+  // Configurar o IntersectionObserver para cada seção
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.2, // Dispara quando 20% da seção estiver visível
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === titleRef.current) setIsTitleVisible(true);
+          if (entry.target === experienceRef.current)
+            setIsExperienceVisible(true);
+          if (entry.target === companyRef.current) setIsCompanyVisible(true);
+          if (entry.target === missionVisionValuesRef.current)
+            setIsMissionVisionValuesVisible(true);
+          if (entry.target === locationRef.current) setIsLocationVisible(true);
+          observer.unobserve(entry.target); // Para de observar após a animação ser disparada
+        }
+      });
+    }, observerOptions);
+
+    // Observa cada seção
+    if (titleRef.current) observer.observe(titleRef.current);
+    if (experienceRef.current) observer.observe(experienceRef.current);
+    if (companyRef.current) observer.observe(companyRef.current);
+    if (missionVisionValuesRef.current)
+      observer.observe(missionVisionValuesRef.current);
+    if (locationRef.current) observer.observe(locationRef.current);
+
+    // Limpeza do observer ao desmontar o componente
+    return () => {
+      if (titleRef.current) observer.unobserve(titleRef.current);
+      if (experienceRef.current) observer.unobserve(experienceRef.current);
+      if (companyRef.current) observer.unobserve(companyRef.current);
+      if (missionVisionValuesRef.current)
+        observer.unobserve(missionVisionValuesRef.current);
+      if (locationRef.current) observer.unobserve(locationRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     console.log("currentLocation: ", location.pathname);
@@ -22,10 +73,11 @@ const AboutUs = () => {
         }, 1000);
       }
     }
-  }, [location]); // Executa o efeito sempre que a rota mudar
+  }, [location]);
+
   return (
     <Box
-     id="about"
+      id="about"
       sx={{
         py: 8,
         width: "100%",
@@ -38,7 +90,7 @@ const AboutUs = () => {
       }}
     >
       {/* Título "Sobre Nós" */}
-      <Box sx={{ textAlign: "center", mb: 6 }}>
+      <Box ref={titleRef} sx={{ textAlign: "center", mb: 6 }}>
         <Typography
           variant="h2"
           component="h1"
@@ -47,6 +99,11 @@ const AboutUs = () => {
             position: "relative",
             padding: "0.5rem 1rem",
             borderRadius: "4px",
+            animation: isTitleVisible ? "fadeInDown 0.8s ease-in-out" : "none",
+            "@keyframes fadeInDown": {
+              "0%": { opacity: 0, transform: "translateY(-20px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
           }}
         >
           Sobre Nós
@@ -57,6 +114,11 @@ const AboutUs = () => {
             display: "flex",
             justifyContent: "center",
             gap: 1,
+            animation: isTitleVisible ? "fadeIn 0.8s ease-in-out" : "none",
+            "@keyframes fadeIn": {
+              "0%": { opacity: 0 },
+              "100%": { opacity: 1 },
+            },
           }}
         >
           <Box sx={{ height: "3px", width: "100px", bgcolor: "#d32f2f" }} />
@@ -76,6 +138,7 @@ const AboutUs = () => {
       >
         {/* Seção "Décadas de Experiência" */}
         <Box
+          ref={experienceRef}
           sx={{
             flex: { xs: "1 1 100%", md: "1 1 41.666%" },
             minWidth: 0,
@@ -92,6 +155,13 @@ const AboutUs = () => {
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
                 transform: "translateY(-5px)",
+              },
+              animation: isExperienceVisible
+                ? "slideInLeft 0.8s ease-in-out"
+                : "none",
+              "@keyframes slideInLeft": {
+                "0%": { opacity: 0, transform: "translateX(-50px)" },
+                "100%": { opacity: 1, transform: "translateX(0)" },
               },
             }}
           >
@@ -143,6 +213,7 @@ const AboutUs = () => {
 
         {/* Seção "Sobre a Empresa" */}
         <Box
+          ref={companyRef}
           sx={{
             flex: { xs: "1 1 100%", md: "1 1 58.333%" },
             minWidth: 0,
@@ -159,6 +230,13 @@ const AboutUs = () => {
               transition: "transform 0.3s ease-in-out",
               "&:hover": {
                 transform: "translateY(-5px)",
+              },
+              animation: isCompanyVisible
+                ? "slideInRight 0.8s ease-in-out"
+                : "none",
+              "@keyframes slideInRight": {
+                "0%": { opacity: 0, transform: "translateX(50px)" },
+                "100%": { opacity: 1, transform: "translateX(0)" },
               },
             }}
           >
@@ -225,6 +303,7 @@ const AboutUs = () => {
 
       {/* Seção de Missão, Valores e Visão */}
       <Box
+        ref={missionVisionValuesRef}
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
@@ -238,19 +317,19 @@ const AboutUs = () => {
             num: "01",
             title: "Missão",
             content:
-              "Oferecer soluções inovadoras e de alta qualidade em cercamentos e arames, satisfazendo as necessidades dos nossos clientes com excelência.",
+              "Proporcionar soluções criativas e de alta performance em cercamentos e arames, atendendo às expectativas dos nossos clientes com excelência.",
           },
           {
             num: "02",
-            title: "Valores",
+            title: "Visão",
             content:
-              "Integridade, inovação, sustentabilidade, trabalho em equipe e foco no cliente são os pilares que guiam nossa atuação no mercado.",
+              "Ser reconhecida como líder global em soluções de cercamentos, ampliando nossa atuação internacional com produtos sustentáveis e inovadores.",
           },
           {
             num: "03",
-            title: "Visão",
+            title: "Valores",
             content:
-              "Ser reconhecida como referência global em soluções de cercamentos, expandindo nossa presença internacional com produtos sustentáveis.",
+              "Ética, inovação, responsabilidade ambiental, colaboração e foco no cliente são os princípios que norteiam nossas ações no mercado.",
           },
         ].map((item, index) => (
           <Box
@@ -274,24 +353,22 @@ const AboutUs = () => {
                 "&:hover": {
                   transform: "translateY(-5px)",
                 },
+                animation: isMissionVisionValuesVisible
+                  ? `fadeInUp 0.5s ease-in-out ${index * 0.2}s`
+                  : "none",
+                animationFillMode: "forwards",
+                opacity: 0,
+                "@keyframes fadeInUp": {
+                  "0%": { opacity: 0, transform: "translateY(20px)" },
+                  "100%": { opacity: 1, transform: "translateY(0)" },
+                },
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <Typography
                   variant="h6"
-                  component="span"
-                  sx={{
-                    fontWeight: "bold",
-                    mr: 1,
-                    color: "#263238",
-                  }}
-                >
-                  {item.num}.
-                </Typography>
-                <Typography
-                  variant="h6"
                   component="h3"
-                  sx={{ fontWeight: "bold" }}
+                  sx={{ fontWeight: "semibold" }}
                 >
                   {item.title}
                 </Typography>
@@ -316,7 +393,7 @@ const AboutUs = () => {
       </Box>
 
       {/* Subseção Localização */}
-      <Box sx={{ mt: 8, textAlign: "center" }}>
+      <Box ref={locationRef} sx={{ mt: 8, textAlign: "center" }}>
         <Typography
           variant="h4"
           component="h2"
@@ -335,6 +412,13 @@ const AboutUs = () => {
               height: "3px",
               bgcolor: "#d32f2f",
             },
+            animation: isLocationVisible
+              ? "fadeInDown 0.8s ease-in-out"
+              : "none",
+            "@keyframes fadeInDown": {
+              "0%": { opacity: 0, transform: "translateY(-20px)" },
+              "100%": { opacity: 1, transform: "translateY(0)" },
+            },
           }}
         >
           Localização
@@ -345,6 +429,11 @@ const AboutUs = () => {
           sx={{
             mb: 3,
             fontSize: { xs: "0.9rem", md: "1rem" },
+            animation: isLocationVisible ? "fadeIn 0.8s ease-in-out" : "none",
+            "@keyframes fadeIn": {
+              "0%": { opacity: 0 },
+              "100%": { opacity: 1 },
+            },
           }}
         >
           Av. Pompílio Gomes Sobrinho, 22856 Centro . CEP 94380-000 . Glorinha .
@@ -358,6 +447,11 @@ const AboutUs = () => {
             height: "400px",
             borderRadius: "8px",
             overflow: "hidden",
+            animation: isLocationVisible ? "zoomIn 0.8s ease-in-out" : "none",
+            "@keyframes zoomIn": {
+              "0%": { opacity: 0, transform: "scale(0.9)" },
+              "100%": { opacity: 1, transform: "scale(1)" },
+            },
           }}
         >
           <iframe

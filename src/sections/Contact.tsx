@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import contactImage from "../assets/Gemini_Generated_Image_sy9znqsy9znqsy9z.jpeg";
-import { Box, Typography, TextField, Button, Paper, Fade, IconButton } from "@mui/material";
+import { Box, Typography, TextField, Button, Paper, Fade } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { sendEmail } from "../utils";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -8,7 +8,6 @@ import ErrorIcon from "@mui/icons-material/Error";
 
 import {CircularProgress} from "@mui/material";
 
-import CloseIcon from "@mui/icons-material/Close";
 
 const Contact = () => {
 

@@ -115,7 +115,6 @@ const styles = {
             alignItems: "center",
             textAlign: "left",
             padding: 2,
-            backgroundColor: "rgba(0, 0, 0, 0.6)",
             color: "white",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             margin: 1,
