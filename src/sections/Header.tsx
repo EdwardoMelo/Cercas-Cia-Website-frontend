@@ -30,7 +30,7 @@ const topCards = [
   {
     icon: <WatchLaterIcon sx={{ height: 40, width: 40, color: red[800] }} />,
     title: "Segunda à Sexta",
-    decription: "8h às 12h e 13h12 às 18h",
+    decription: "8h às 12h e 13h30 às 18h",
   },
   {
     icon: <LocalPhoneIcon sx={{ height: 40, width: 40, color: red[800] }} />,

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -104,7 +104,7 @@ const productCards: ProductCard[] = [
       "Aeroportos, metrôs, terminais rodoviários, etc.",
     ],
     description:
-      "O Belgo Nylofor é uma cerca versátil e durável, perfeita para delimitar espaços com elegância e segurança. Seu acabamento em PVC garante maior resistência às intempéries.",
+      "O Belgo Nylofor é uma cerca versátil e durável, perfeita para delimitar espaços com elegância e segurança.",
   },
   {
     id: 3,
@@ -174,25 +174,7 @@ const productCards: ProductCard[] = [
     description:
       "O Belgo Protec oferece proteção confiável com um design discreto. Ideal para quem busca segurança e estética em um único produto.",
   },
-  {
-    id: 7,
-    title: "Belgo Móvel",
-    image: "",
-    applications: [
-      "Rápida instalação e remoção",
-      "Economia: pode ser reutilizado",
-      "Facilidade de transporte e armazenagem",
-      "Setorização industrial e comercial",
-      "Almoxarifados e depósitos",
-      "Tapumes de obras",
-      "Proteção de máquinas e equipamentos",
-      "Isolamento de locais de risco",
-      "Direcionamento de público em eventos",
-      "Delimitação de faixas de domínio.",
-    ],
-    description:
-      "O Belgo Móvel é uma solução prática e portátil para cercar áreas temporárias. Fácil de instalar e transportar, é ideal para eventos e obras.",
-  },
+
   {
     id: 8,
     title: "Belgo Alambrado",
@@ -220,23 +202,6 @@ const productCards: ProductCard[] = [
     ],
     description:
       "O Belgo Plastic é uma cerca revestida em plástico, oferecendo maior proteção contra corrosão e um acabamento visual diferenciado. Ideal para áreas residenciais e comerciais.",
-  },
-  {
-    id: 10,
-    title: "Belgo Serralheiro",
-    image: "",
-    applications: [
-      "Amplo portfólio para atender serralherias",
-      "Aplicação em requadros metálicos",
-      "Gôndolas",
-      "Serviços de serralherias",
-      "Ótimo custo-benefício",
-      "Residências",
-      "Praças, parques e jardins",
-      "Condomínios residenciais.",
-    ],
-    description:
-      "O Belgo Serralheiro é uma solução robusta e versátil, projetada para atender às necessidades de serralheiros e construtores. Perfeito para projetos personalizados.",
   },
   {
     id: 11,
@@ -314,8 +279,13 @@ const Products = () => {
   };
 
   const handleCloseModal = () => {
+    if (document.activeElement instanceof HTMLElement) {
+      console.log('active element: ', document.activeElement)
+      document.activeElement.blur();
+    }
     setOpenModal(false);
     setSelectedProduct(null);
+  
   };
 
   useEffect(() => {
@@ -430,7 +400,7 @@ const Products = () => {
                 width: "100%",
                 backgroundColor: "rgba(139, 0, 0, 0.5)",
                 zIndex: 25,
-                transform: "translateY(100%)",
+                transform: "translateY(250px)",
                 transition: "all 0.5s ease-in-out",
                 display: "flex",
                 justifyContent: "center",
@@ -457,7 +427,10 @@ const Products = () => {
                   },
                   transition: "all 0.3s ease-in-out",
                 }}
-                onClick={() => handleOpenModal(product)}
+                onClick={(e : React.MouseEvent<HTMLButtonElement>) => { 
+                  e.currentTarget.blur();
+                  handleOpenModal(product)
+                }}
               >
                 <Typography textTransform="capitalize">Ver Mais</Typography>
               </Button>
@@ -637,7 +610,9 @@ const Products = () => {
                 top: 2,
                 right: 2,
                 color: "#666",
-                "&:hover": { color: "#d32f2f" },
+                backgroundColor: 'white',
+              
+                "&:hover": { backgroundColor: red[900], color: 'white' },
                 zIndex: 10,
               }}
             >
