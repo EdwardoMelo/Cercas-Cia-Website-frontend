@@ -217,6 +217,26 @@ const productCards: ProductCard[] = [
     description:
       "O Belgo Practica é uma cerca prática e econômica, ideal para delimitar espaços com eficiência e simplicidade. Sua instalação é rápida e fácil.",
   },
+  {
+    id: 12,
+    title: "Belgo Fortinet",
+    description:
+      "O Belgo Fortinet é uma solução completa e durável, ideal para regiões litorâneas, áreas industriais e empreendimentos comerciais. Oferece alta resistência à corrosão e rápida instalação, adaptando-se a diferentes topografias.",
+    image: "",
+    applications: [
+      "Arame galvanizado e revestido em PVC de alta aderência",
+      "Elevada vida útil",
+      "Sistema completo: tela e postes",
+      "Adequada para toda topografia de terreno",
+      "Rápida instalação",
+      "Obras em regiões litorâneas",
+      "Áreas industriais de atmosfera corrosiva",
+      "Portos",
+      "Condomínios residenciais",
+      "Praças, parques, playgrounds, áreas de lazer",
+      "Empreendimentos comerciais e industriais",
+    ]
+  }
 ];
 
 // Preenche dinamicamente as imagens dos produtos
@@ -596,6 +616,8 @@ const Products = () => {
                   transform: "scale(0.8)",
                 },
                 "100%": {
+
+        
                   opacity: 1,
                   transform: "scale(1)",
                 },

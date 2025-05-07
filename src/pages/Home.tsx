@@ -26,8 +26,8 @@ const sections = [
   },
 
 ];
+
 const Home = () => {
-  console.log('home')
   return (
     <>
       {sections.map((section) => (

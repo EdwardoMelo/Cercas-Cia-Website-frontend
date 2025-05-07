@@ -174,7 +174,7 @@ const AboutUs = () => {
                 fontSize: { xs: "2rem", md: "3rem" },
               }}
             >
-              Décadas
+              Desde 2012
             </Typography>
             <Typography
               variant="h6"
@@ -193,20 +193,17 @@ const AboutUs = () => {
                 },
               }}
             >
-              de experiência
+              fornecendo cercamentos de alta qualidade
             </Typography>
 
             <Box sx={{ mt: 5 }}>
-              <Typography
+                <Typography
                 sx={{
                   fontSize: { xs: "0.9rem", md: "1rem", fontWeight: 300 },
                 }}
-              >
-                Hoje a empresa conta com novos produtos e uma equipe ainda mais
-                especializada e treinada para atender seus clientes, procurando
-                suprir suas necessidades de cercamentos com acabamentos
-                diferenciados e resistentes.
-              </Typography>
+                >
+                Nosso fundador Édipo Silva, ao longo dos anos, liderou a empresa com dedicação e inovação, transformando desafios em oportunidades e consolidando a Cercas & Cia Refer como referência no mercado de cercamentos.
+                </Typography>
             </Box>
           </Paper>
         </Box>
@@ -265,37 +262,15 @@ const AboutUs = () => {
 
             <Typography
               sx={{
-                fontSize: {
-                  xs: "0.9rem",
-                  md: "1rem",
-                  fontWeight: 400,
-                  color: "#263238",
-                },
+              fontSize: {
+                xs: "0.9rem",
+                md: "1rem",
+                fontWeight: 400,
+                color: "#263238",
+              },
               }}
             >
-              A Belgo Cercas e Cia é uma empresa dedicada a oferecer soluções
-              completas em cercamentos e arames, combinando tradição e inovação
-              para atender às demandas de seus clientes com excelência e
-              qualidade.
-            </Typography>
-
-            <Typography
-              sx={{
-                fontSize: {
-                  xs: "0.9rem",
-                  md: "1rem",
-                  fontWeight: 400,
-                  color: "#263238",
-                },
-              }}
-            >
-              A Belgo Cercas e Cia é parceira da Belgo, uma empresa com uma
-              história sólida que remonta a 1971, quando foi firmada a primeira
-              parceria estratégica entre a ArcelorMittal, uma das maiores
-              produtoras de aço do mundo, e a Bekaert, líder mundial em arames.
-              Essa união deu origem à Belgo-Mineira Bekaert, dedicada à produção
-              de steel cord e hose wire, consolidando-se como referência em
-              qualidade e inovação no setor.
+              A Cercas & Cia Refer é uma empresa que se destaca no mercado de cercamentos, oferecendo soluções inovadoras e de alta qualidade para atender às necessidades de seus clientes em todo Rio Grande do Sul! 
             </Typography>
           </Paper>
         </Box>
@@ -315,21 +290,22 @@ const AboutUs = () => {
         {[
           {
             num: "01",
-            title: "Missão",
+            title: "Qualidade",
             content:
-              "Proporcionar soluções criativas e de alta performance em cercamentos e arames, atendendo às expectativas dos nossos clientes com excelência.",
+              "Garantimos produtos e serviços de alta qualidade, atendendo aos mais rigorosos padrões do mercado.",
           },
+         
           {
             num: "02",
-            title: "Visão",
+            title: "Compromisso",
             content:
-              "Ser reconhecida como líder global em soluções de cercamentos, ampliando nossa atuação internacional com produtos sustentáveis e inovadores.",
+              "Estamos comprometidos em oferecer soluções que superem as expectativas, com foco na satisfação e confiança de nossos clientes.",
           },
           {
             num: "03",
-            title: "Valores",
+            title: "Ética",
             content:
-              "Ética, inovação, responsabilidade ambiental, colaboração e foco no cliente são os princípios que norteiam nossas ações no mercado.",
+              "Agimos com transparência, integridade e respeito em todas as nossas relações, promovendo um ambiente de confiança e responsabilidade.",
           },
         ].map((item, index) => (
           <Box
@@ -342,50 +318,50 @@ const AboutUs = () => {
             <Paper
               elevation={3}
               sx={{
-                p: 3,
-                height: "100%",
-                border: "1px solid #e0e0e0",
-                borderLeft: "8px solid #d32f2f",
-                borderRadius: "4px",
-                display: "flex",
-                flexDirection: "column",
-                transition: "transform 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                },
-                animation: isMissionVisionValuesVisible
-                  ? `fadeInUp 0.5s ease-in-out ${index * 0.2}s`
-                  : "none",
-                animationFillMode: "forwards",
-                opacity: 0,
-                "@keyframes fadeInUp": {
-                  "0%": { opacity: 0, transform: "translateY(20px)" },
-                  "100%": { opacity: 1, transform: "translateY(0)" },
-                },
+          p: 3,
+          height: "100%",
+          border: "1px solid #e0e0e0",
+          borderLeft: "8px solid #d32f2f",
+          borderRadius: "4px",
+          display: "flex",
+          flexDirection: "column",
+          transition: "transform 0.3s ease-in-out",
+          "&:hover": {
+            transform: "translateY(-5px)",
+          },
+          animation: isMissionVisionValuesVisible
+            ? `fadeInUp 0.5s ease-in-out ${index * 0.2}s`
+            : "none",
+          animationFillMode: "forwards",
+          opacity: 0,
+          "@keyframes fadeInUp": {
+            "0%": { opacity: 0, transform: "translateY(20px)" },
+            "100%": { opacity: 1, transform: "translateY(0)" },
+          },
               }}
             >
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                <Typography
-                  variant="h6"
-                  component="h3"
-                  sx={{ fontWeight: "semibold" }}
-                >
-                  {item.title}
-                </Typography>
+          <Typography
+            variant="h6"
+            component="h3"
+            sx={{ fontWeight: "semibold" }}
+          >
+            {item.title}
+          </Typography>
               </Box>
               <Typography
-                variant="body1"
-                sx={{
-                  fontSize: {
-                    xs: "0.9rem",
-                    md: "1rem",
-                    fontWeight: 400,
-                    fontStyle: "italic",
-                    color: "#263238",
-                  },
-                }}
+          variant="body1"
+          sx={{
+            fontSize: {
+              xs: "0.9rem",
+              md: "1rem",
+              fontWeight: 400,
+              fontStyle: "italic",
+              color: "#263238",
+            },
+          }}
               >
-                {item.content}
+          {item.content}
               </Typography>
             </Paper>
           </Box>
